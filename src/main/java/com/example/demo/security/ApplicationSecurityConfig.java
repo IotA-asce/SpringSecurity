@@ -29,7 +29,17 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http    
-                .csrf().disable()
+                .csrf().disable()   // CROSS SITE REQUEST FORGERY
+
+                // CSRF: ENABLED
+                // -------------        Client login    -------------
+                // |           | <--------------------- |           |
+                // |           | ---------------------> |           |
+                // |   SERVER  |        CSRF Token      |   CLIENT  |
+                // |           |                        |           |
+                // |           |                        |           |
+                // -------------                        -------------
+
                 .authorizeRequests()
                 .antMatchers("/", "index", "/css/*", "/js/*").permitAll() // whitelisting certain pages from login
                 .antMatchers("/api/**").hasRole(ApplicationUserRole.STUDENT.name())
