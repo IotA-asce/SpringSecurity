@@ -37,9 +37,13 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 // |           | ---------------------> |           |
                 // |   SERVER  |        CSRF Token      |   CLIENT  |
                 // |           |                        |           |
-                // |           |                        |           |
-                // -------------                        -------------
-
+                // |           | <--------------------- |           |
+                // ------------- ---      Client submits-------------
+                //          ^      |      form with token: POST | PUT | DELETE
+                //          |      |Validates
+                //          |______|
+                //
+                
                 .authorizeRequests()
                 .antMatchers("/", "index", "/css/*", "/js/*").permitAll() // whitelisting certain pages from login
                 .antMatchers("/api/**").hasRole(ApplicationUserRole.STUDENT.name())
