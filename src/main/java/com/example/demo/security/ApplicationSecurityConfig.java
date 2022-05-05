@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+// import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @Configuration
 @EnableWebSecurity
@@ -43,7 +44,13 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 //          |      |Validates
                 //          |______|
                 //
-                
+                // CSRF protection should be enabled for in browser 
+                // ... request processing
+                // CSRF protection should be disabled for non-browser 
+                // ... request processing
+
+                // .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                // .and()
                 .authorizeRequests()
                 .antMatchers("/", "index", "/css/*", "/js/*").permitAll() // whitelisting certain pages from login
                 .antMatchers("/api/**").hasRole(ApplicationUserRole.STUDENT.name())
@@ -55,6 +62,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticated()
                 .and()
                 .httpBasic();
+                // .formLogin();
     }
 
     @Override
